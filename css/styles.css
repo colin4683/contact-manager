@@ -1,0 +1,88 @@
+body {
+    background: linear-gradient(to top, #000000, #a67c00);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Comfortaa",sans-serif;
+    font-size: 100%;
+}
+
+p{
+    font-size: 0.625em;
+}
+
+#Title {
+    color: #000000;
+    padding: 10px;
+    text-align: center;
+}
+
+#Subtitle {
+    font-size: 1em;
+}
+
+#Register {
+    line-height: 0.5;
+    color: #757575;
+}
+
+.Bubble {
+    background-color: #f0f0f0;
+    border-color: #a67c00;
+    border-style: outset;
+    border-radius: 10px;
+    border-width: 5px;
+    position: relative;
+}
+
+#MainBox {
+    width: 600px;
+    height: 220px;
+    margin: auto;
+    margin-top: 10%;
+}
+
+.field {
+    background-color: #f0f0f0;
+    border-color: #767676;
+    border-radius: 10px;
+    border-style: solid;
+    width: 11em;
+    height: 2em;
+    padding-left: 5 px;
+}
+
+#Left {
+    float: left;
+    width: 200px;
+    height: 100px;
+    margin-left: 5%;
+    margin-bottom: 10%;
+    position: relative;
+}
+
+#Right {
+    float: right;
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    margin-right: 10%;
+    text-align: center;
+}
+
+button {
+    border-radius: 5px;
+    border-color: #767676;
+    border-style: solid;
+    color: #757575;
+    padding: 1px 5px;
+}   
+
+button:hover {
+    background-color: #f4f6f4;
+}
+
+button:focus {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000000;
+}
