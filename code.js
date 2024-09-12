@@ -1,4 +1,4 @@
-const urlBase = 'http://test.hunterdobb.xyz/smallprojectapi';
+const urlBase = 'http://contacts.hunterdobb.xyz/smallprojectapi';
 // const urlBase = 'http://127.0.0.1:5500/smallprojectapi';
 const extension = 'php';
 
@@ -19,7 +19,7 @@ function doLogin() {
   document.getElementById("loginResult").innerHTML = "test";
 
   // Turns login info into a JSON string to be exported
-  let tmp = { login: email, password: password };
+  let tmp = {login: email,password: password};
   let jsonPayload = JSON.stringify(tmp);
 
   let url = urlBase + '/login.' + extension;
@@ -44,9 +44,11 @@ function doLogin() {
   //       firstName = jsonObject.firstName;
   //       lastName = jsonObject.lastName;
 
-  //       saveCookie();
+  //       document.getElementById("loginResult").innerHTML = "Success!";
 
-  //       window.location.href = "contacts.html";
+  //       // saveCookie();
+
+  //       // window.location.href = "contacts.html";
   //     }
   //   };
 
@@ -54,4 +56,33 @@ function doLogin() {
   // } catch (error) {
   //   document.getElementById("loginResult").innerHTML = error.message;
   // }
+}
+
+function doRegister() {
+  let name = document.getElementById("registerName").value;
+  let email = document.getElementById("registerEmail").value;
+  let password = document.getElementById("registerPassword").value;
+
+	document.getElementById("registerResult").innerHTML = "";
+
+	let tmp = {color:newColor,userId,userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/AddColor.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try {
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+			}
+		};
+		xhr.send(jsonPayload);
+	} catch(err) {
+		document.getElementById("colorAddResult").innerHTML = err.message;
+	}
+	
 }

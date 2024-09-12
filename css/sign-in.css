@@ -1,4 +1,3 @@
-html,
 body {
   height: 100%;
 }
@@ -12,7 +11,7 @@ body {
   z-index: 2;
 }
 
-.form-signin input[type="registerEmail"] {
+.form-signin input[id="registerEmail"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -20,7 +19,7 @@ body {
   border-top-left-radius: 0;
 }
 
-.form-signin input[type="email"] {
+.form-signin input[id="loginEmail"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
