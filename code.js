@@ -19,43 +19,43 @@ function doLogin() {
   document.getElementById("loginResult").innerHTML = "test";
 
   // Turns login info into a JSON string to be exported
-  let tmp = {login: email,password: password};
+  let tmp = {email: email,password: password};
   let jsonPayload = JSON.stringify(tmp);
 
   let url = urlBase + '/login.' + extension;
 
 
   // ----- Yet to be implemented: -----
-  // let xhr = new XMLHttpRequest();
-  // xhr.open("POST", url, true);
-  // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-  // try {
-  //   xhr.onreadystatechange = function() {
-  //     if (this.readyState == 4 && this.status == 200) {
-  //       let jsonObject = JSON.parse(xhr.responseText);
-  //       userId = jsonObject.id;
+  try {
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        let jsonObject = JSON.parse(xhr.responseText);
+        userId = jsonObject.id;
 
-  //       if (userId < 1) {
-  //         document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-  //         return;
-  //       }
+        if (userId < 1) {
+          document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+          return;
+        }
 
-  //       firstName = jsonObject.firstName;
-  //       lastName = jsonObject.lastName;
+        firstName = jsonObject.firstName;
+        lastName = jsonObject.lastName;
 
-  //       document.getElementById("loginResult").innerHTML = "Success!";
+        document.getElementById("loginResult").innerHTML = "Success!";
 
-  //       // saveCookie();
+        // saveCookie();
 
-  //       // window.location.href = "contacts.html";
-  //     }
-  //   };
+        // window.location.href = "contacts.html";
+      }
+    };
 
-  //   xhr.send(jsonPayload);
-  // } catch (error) {
-  //   document.getElementById("loginResult").innerHTML = error.message;
-  // }
+    xhr.send(jsonPayload);
+  } catch (error) {
+    document.getElementById("loginResult").innerHTML = error.message;
+  }
 }
 
 function doRegister() {
