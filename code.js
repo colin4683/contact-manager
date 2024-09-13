@@ -4,6 +4,7 @@ const extension = 'php';
 let userId = 0;
 let firstName = "";
 let lastName = "";
+let email = ""
 
 function doLogin() {
   userId = 0;
@@ -11,7 +12,7 @@ function doLogin() {
   lastName = "";
 
   // Get the email and password from index.html
-  let email = document.getElementById("loginEmail").value;
+  email = document.getElementById("loginEmail").value;
   let password = document.getElementById("loginPassword").value;
 
   // Used for displaying error messages
@@ -67,8 +68,7 @@ function saveCookie() {
 	let minutes = 20;
 	let date = new Date();
 	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
-  document.getElementById("loginResult").innerHTML = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ",email=" + email + ";expires=" + date.toGMTString();
 }
 
 function readCookie() {
@@ -86,13 +86,15 @@ function readCookie() {
 			lastName = tokens[1];
 		} else if (tokens[0] == "userId") {
 			userId = parseInt( tokens[1].trim() );
-		}
+		} else if (tokens[0] == "email") {
+			email = tokens[1];
+    }
 	}
 	
 	if( userId < 0 ) {
 		window.location.href = "index.html";
 	} else {
-		document.getElementById("loggedInName").innerHTML = "Logged in as " + firstName + " " + lastName;
+		document.getElementById("loggedInName").innerHTML = "Logged in as " + firstName + " " + lastName + ": " + email;
 	}
 }
 
