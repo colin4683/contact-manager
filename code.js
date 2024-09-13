@@ -92,16 +92,19 @@ function readCookie() {
 }
 
 function doRegister() {
-  let name = document.getElementById("registerName").value;
+
+  // Get the name, email, and password from register.html
+  let firstName = document.getElementById("registerFirstName").value;
+  let lastName = document.getElementById("registerLastName").value;
   let email = document.getElementById("registerEmail").value;
   let password = document.getElementById("registerPassword").value;
 
-	document.getElementById("registerResult").innerHTML = "";
+	document.getElementById("registerResult").innerHTML = "test";
 
-	let tmp = {color:newColor,userId,userId};
+	let tmp = {first_name:firstName,last_name:lastName,email:email,password:password};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/AddColor.' + extension;
+	let url = urlBase + '/register.' + extension;
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -110,12 +113,16 @@ function doRegister() {
 	try {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				document.getElementById("registerResult").innerHTML = "Successs";
+
+        saveCookie();
+
+        window.location.href = "contacts.html";
 			}
 		};
 		xhr.send(jsonPayload);
 	} catch(err) {
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("registerResult").innerHTML = err.message;
 	}
 	
 }

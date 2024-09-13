@@ -36,3 +36,17 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.form-signin input[id="registerFirstName"] {
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-bottom: -1px;
+}
+
+.form-signin input[id="registerLastName"] {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-bottom: -1px;
+}
