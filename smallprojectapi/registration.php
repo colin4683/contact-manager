@@ -29,7 +29,6 @@ if ($conn->connect_error) {
 
     $stmt->close();
     $conn->close();
-    returnWithError("");
 }
 
 function returnWithInfo($firstName, $lastName, $id)
