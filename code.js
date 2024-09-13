@@ -1,5 +1,4 @@
 const urlBase = 'http://contacts.hunterdobb.xyz/smallprojectapi';
-// const urlBase = 'http://127.0.0.1:5500/smallprojectapi';
 const extension = 'php';
 
 let userId = 0;
@@ -54,6 +53,14 @@ function doLogin() {
   } catch (error) {
     document.getElementById("loginResult").innerHTML = error.message;
   }
+}
+
+function doLogout() {
+	userId = 0;
+	firstName = "";
+	lastName = "";
+	document.cookie = "firstName= ; lastName= ; userID = ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+	window.location.href = "index.html";
 }
 
 function saveCookie() {
