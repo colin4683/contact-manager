@@ -24,8 +24,6 @@ function doLogin() {
 
   let url = urlBase + '/login.' + extension;
 
-
-  // ----- Yet to be implemented: -----
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -104,7 +102,7 @@ function doRegister() {
 	let tmp = {first_name:firstName,last_name:lastName,email:email,password:password};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/registeration.' + extension;
+	let url = urlBase + '/registration.' + extension;
 	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -113,9 +111,18 @@ function doRegister() {
 	try {
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("registerResult").innerHTML = "Successs";
+				// document.getElementById("registerResult").innerHTML = "Successs";
+        // document.getElementById("loginResult").innerHTML = xhr.responseText;
 
-        saveCookie();
+        // let jsonObject = JSON.parse(xhr.responseText);
+        // userId = jsonObject.id;
+
+        // firstName = jsonObject.first_name;
+        // lastName = jsonObject.last_name;
+
+        // document.getElementById("registerResult").innerHTML = "Successs";
+
+        // saveCookie();
 
         window.location.href = "contacts.html";
 			}
