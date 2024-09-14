@@ -102,8 +102,6 @@ function doRegister() {
   email = document.getElementById("registerEmail").value;
   let password = document.getElementById("registerPassword").value;
 
-  document.getElementById("registerResult").innerHTML = "test";
-
   let tmp = { first_name: firstName, last_name: lastName, email: email, password: password };
   let jsonPayload = JSON.stringify(tmp);
 
