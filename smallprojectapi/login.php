@@ -6,28 +6,27 @@ error_reporting(E_ALL);
 
 $inData = getRequestInfo();
 
-$id = 0;
-$firstName = "";
-$lastName = "";
+$conn = require __DIR__ . "/database.php";
 
-$conn = new mysqli("localhost", "SmallAdmin", "GoodPassword", "smallproject");
-if ($conn->connect_error) {
-	returnWithError($conn->connect_error);
-} else {
-	$stmt = $conn->prepare("SELECT ID,first_name,last_name FROM users WHERE email=? AND password =?");
-	$stmt->bind_param("ss", $inData["email"], $inData["password"]);
-	$stmt->execute();
-	$result = $stmt->get_result();
+$stmt = $conn->prepare("SELECT ID,first_name,last_name,password FROM users WHERE email=?");
+$stmt->bind_param("s", $inData["email"]);
+$stmt->execute();
+$result = $stmt->get_result();
 
-	if ($row = $result->fetch_assoc()) {
-		returnWithInfo($row['first_name'], $row['last_name'], $row['ID']);
+if ($row = $result->fetch_assoc()) {
+	if (password_verify($inData["password"], $row["password"])) {
+		returnWithInfo($row["first_name"], $row["last_name"], $row["ID"]);
 	} else {
 		returnWithError("No Records Found");
 	}
-
-	$stmt->close();
-	$conn->close();
+} else {
+	returnWithError("No Records Found");
 }
+
+
+
+$stmt->close();
+$conn->close();
 
 function getRequestInfo()
 {
