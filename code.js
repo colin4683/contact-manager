@@ -15,9 +15,6 @@ function doLogin() {
   email = document.getElementById("loginEmail").value;
   let password = document.getElementById("loginPassword").value;
 
-  // Used for displaying error messages
-  document.getElementById("loginResult").innerHTML = "test";
-
   // Turns login info into a JSON string to be exported
   let tmp = { email: email, password: password };
   let jsonPayload = JSON.stringify(tmp);
@@ -31,19 +28,16 @@ function doLogin() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("loginResult").innerHTML = xhr.responseText;
         let jsonObject = JSON.parse(xhr.responseText);
         userId = jsonObject.id;
 
         if (userId < 1) {
-          document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+          document.getElementById("loginResult").innerHTML = "Invalid Login";
           return;
         }
 
         firstName = jsonObject.first_name;
         lastName = jsonObject.last_name;
-
-        document.getElementById("loginResult").innerHTML = "Success";
 
         saveCookie();
 

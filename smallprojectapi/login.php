@@ -8,14 +8,18 @@ $inData = getRequestInfo();
 
 $conn = require __DIR__ . "/database.php";
 
-$stmt = $conn->prepare("SELECT ID,first_name,last_name,password FROM users WHERE email=?");
-$stmt->bind_param("s", $inData["email"]);
-$stmt->execute();
-$result = $stmt->get_result();
+// prevents sql injection attacks
+$stmt = sprintf(
+	"SELECT ID,first_name,last_name,password FROM users WHERE email = '%s'",
+	$conn->real_escape_string($inData["email"])
+);
 
-if ($row = $result->fetch_assoc()) {
-	if (password_verify($inData["password"], $row["password"])) {
-		returnWithInfo($row["first_name"], $row["last_name"], $row["ID"]);
+$result = $conn->query($stmt);
+$user = $result->fetch_assoc();
+
+if ($user) {
+	if (password_verify($inData["password"], $user["password"])) {
+		returnWithInfo($user["first_name"], $user["last_name"], $user["ID"]);
 	} else {
 		returnWithError("No Records Found");
 	}
@@ -24,10 +28,10 @@ if ($row = $result->fetch_assoc()) {
 }
 
 
-
-$stmt->close();
 $conn->close();
 
+
+// Helper functions
 function getRequestInfo()
 {
 	return json_decode(file_get_contents('php://input'), true);
@@ -50,5 +54,3 @@ function returnWithInfo($firstName, $lastName, $id)
 	$retValue = '{"id":' . $id . ',"first_name":"' . $firstName . '","last_name":"' . $lastName . '","error":""}';
 	sendResultInfoAsJson($retValue);
 }
-
-?>
