@@ -25,19 +25,22 @@
       <h1 class="text-center my-3">Contact Manager</h1>
     </div>
 
-    <!-- email and password -->
-    <div class="form-floating">
-      <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
-      <label for="loginEmail">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="loginPassword" placeholder="Password">
-      <label for="loginPassword">Password</label>
-    </div>
+    <!-- login form -->
+    <form name="code" action="javascript:doLogin()">
+      <div class="form-floating">
+        <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
+        <label for="loginEmail">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+        <label for="loginPassword">Password</label>
+      </div>
 
-    <!-- sign in and create account buttons -->
-    <p class="text-danger text-center" id="loginResult"></p> <!-- shows sign in feedback -->
-    <button class="btn btn-primary w-100 py-2" onclick=doLogin()>Sign in</button>
+      <p class="text-danger text-center" id="loginResult"></p> <!-- shows sign in feedback -->
+      <button class="btn btn-primary w-100 py-2">Sign in</button>
+    </form>
+
+    <!-- create account button -->
     <div class="mt-4 text-center">
       <button type="button" class="btn btn-link"><a href="registration.html">Create an Account</a></button>
     </div>

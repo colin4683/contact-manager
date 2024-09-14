@@ -18,6 +18,7 @@ $result = $conn->query($stmt);
 $user = $result->fetch_assoc();
 
 if ($user) {
+	// Handles verifying password hash
 	if (password_verify($inData["password"], $user["password"])) {
 		returnWithInfo($user["first_name"], $user["last_name"], $user["ID"]);
 	} else {
