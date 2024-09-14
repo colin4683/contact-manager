@@ -8,7 +8,7 @@ $in = getRequestInfo();
 $conn = require __DIR__ . "/database.php";
 
 $stmt = $conn->prepare("INSERT INTO contacts (contact_id, owner, email, first_name, last_name, phone_number) VALUES(?,?,?,?,?,?)");
-$stmt->bind_param("ssssss", $in["owner"], $in["owner"], $in["email"], $in["first_name"], $in["last_name"], $in["phone_number"]);
+$stmt->bind_param("ssssss", random_int(0, 1000000000), $in["owner"], $in["email"], $in["first_name"], $in["last_name"], $in["phone_number"]);
 $stmt->execute();
 $stmt->close();
 $conn->close();

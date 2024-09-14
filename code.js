@@ -94,13 +94,51 @@ function readCookie() {
   }
 }
 
+function searchContacts() {
+  let search = document.getElementById("searchText").value;
+  document.getElementById("contactSearchResult").innerHTML = "";
+
+  let contactList = "";
+
+  let tmp = { search: search, userId: userId };
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + '/searchContacts.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
+        let jsonObject = JSON.parse(xhr.responseText);
+
+        for (let i = 0; i < jsonObject.results.length; i++) {
+          contactList += jsonObject.results[i];
+          if (i < jsonObject.results.length - 1) {
+            contactList += "<br />\r\n";
+          }
+        }
+
+        document.getElementById("contactList").innerHTML = contactList;
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch (err) {
+    document.getElementById("contactSearchResult").innerHTML = err.message;
+  }
+}
+
 function addContact() {
   let newContactFirstName = document.getElementById("newContactFirstName").value;
   let newContactLastName = document.getElementById("newContactLastName").value;
   let newContactEmail = document.getElementById("newContactEmail").value;
   let newContactPhoneNumber = document.getElementById("newContactPhoneNumber").value;
 
-  document.getElementById("contactAddResult").innerHTML = "";
+  document.getElementById("addContactResult").innerHTML = "";
 
   let tmp = { owner: userId, first_name: newContactFirstName, last_name: newContactLastName, email: newContactEmail, phone_number: newContactPhoneNumber };
   let jsonPayload = JSON.stringify(tmp);
