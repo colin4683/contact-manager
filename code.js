@@ -94,6 +94,36 @@ function readCookie() {
   }
 }
 
+function addContact() {
+  let newContactFirstName = document.getElementById("newContactFirstName").value;
+  let newContactLastName = document.getElementById("newContactLastName").value;
+  let newContactEmail = document.getElementById("newContactEmail").value;
+  let newContactPhoneNumber = document.getElementById("newContactPhoneNumber").value;
+
+  document.getElementById("contactAddResult").innerHTML = "";
+
+  let tmp = { owner: userId, first_name: newContactFirstName, last_name: newContactLastName, email: newContactEmail, phone_number: newContactPhoneNumber };
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + '/addContact.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("addContactResult").innerHTML = "Contact has been added";
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch (err) {
+    document.getElementById("addContactResult").innerHTML = err.message;
+  }
+}
+
 function doRegister() {
 
   // Get the name, email, and password from register.html

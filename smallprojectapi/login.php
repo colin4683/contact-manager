@@ -5,7 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $inData = getRequestInfo();
-
 $conn = require __DIR__ . "/database.php";
 
 // prevents sql injection attacks
