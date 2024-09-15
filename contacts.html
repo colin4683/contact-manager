@@ -12,7 +12,7 @@
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
       readCookie();
-      searchContacts();
+      searchContacts(); 
     }, false);
   </script>
 
@@ -60,6 +60,38 @@
 
       <p class="text-danger text-center" id="addContactResult"></p> <!-- shows sign in feedback -->
       <button class="btn btn-primary w-100 py-2" type="submit">Add Contact</button>
+    </form>
+
+  </br>
+    <form name="code" action="javascript:updateContact()"></form>
+      <!-- Update contact form -->
+      <div class="form-floating">
+        <input type="text" class="form-control" id="existingContactID" placeholder="Jon">
+        <label for="existingContactID">Existing Contact ID</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="text" class="form-control" id="updatedContactFirstName" placeholder="Jon">
+        <label for="updatedContactFirstName">First Name</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="text" class="form-control" id="existingContactLastName" placeholder="Doe">
+        <label for="updatedContactLastName">Last Name</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="tel" class="form-control" id="updatedContactPhoneNumber" placeholder="1234567890">
+        <label for="updatedContactPhoneNumber">Phone Number</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="email" class="form-control" id="existingContactEmail" placeholder="placeholder@test.com">
+        <label for="updatedContactEmail">Email</label>
+      </div>
+
+      <p class="text-danger text-center" id="updateContactResult"></p> <!-- shows sign in feedback -->
+      <button class="btn btn-primary w-100 py-2" type="submit">Update Contact</button>
     </form>
 
     <button class="btn btn-primary" onclick=doLogout()>Log out</button>

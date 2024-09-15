@@ -88,7 +88,7 @@ function readCookie() {
   }
 
   if (userId < 0) {
-    window.location.href = "index.html";
+    //window.location.href = "index.html";
   } else {
     document.getElementById("loggedInName").innerHTML = "Logged in as " + firstName + " " + lastName + ": " + email;
   }
@@ -124,7 +124,7 @@ function searchContacts() {
 
         for (let i = 0; i < jsonObject.results.length; i++) {
           let result = jsonObject.results[i];
-          let foundContact = result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
+          let foundContact = result["contact_id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
           contactList += foundContact;
           if (i < jsonObject.results.length - 1) {
             contactList += "<br />\r\n";
@@ -171,6 +171,39 @@ function addContact() {
     document.getElementById("addContactResult").innerHTML = err.message;
   }
 }
+
+function updateContact() {
+  let existingContactID = document.getElementById("existingContactID").value;
+  let updatedContactFirstName = document.getElementById("updatedContactFirstName").value;
+  let updatedContactLastName = document.getElementById("exisitngContactLastName").value;
+  let updatedContactEmail = document.getElementById("updatedContactEmail").value;
+  let updatedContactPhoneNumber = document.getElementById("updatedContactPhoneNumber").value;
+
+  document.getElementById("updateContactResult").innerHTML = "";
+
+  let tmp = { owner: userId, id: existingContactID, first_name: updatedContactFirstName, last_name: updatedContactLastName, email: updatedContactEmail, phone_number: updatedContactPhoneNumber };
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + '/updateContact.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("updateContactResult").innerHTML = "Contact has been updated";
+        searchContacts();
+      }
+    };
+    xhr.send(jsonPayload);
+  }
+  catch (err) {
+    document.getElementById("updateContactResult").innerHTML = err.message;
+  }
+}
+
 
 function doRegister() {
 
