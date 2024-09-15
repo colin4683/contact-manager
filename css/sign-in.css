@@ -7,6 +7,11 @@ body {
   padding: 1rem;
 }
 
+.form-contacts {
+  max-width: 450px;
+  padding: 1rem;
+}
+
 .form-signin .form-floating:focus-within {
   z-index: 2;
 }

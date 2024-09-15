@@ -96,14 +96,13 @@ function readCookie() {
 
 function searchContacts() {
   let search = document.getElementById("searchText").value;
-  document.getElementById("contactSearchResult").innerHTML = "";
 
   let contactList = "";
 
-  let tmp = { search: search, userId: userId };
+  let tmp = { search: search, owner: userId };
   let jsonPayload = JSON.stringify(tmp);
 
-  let url = urlBase + '/searchContacts.' + extension;
+  let url = urlBase + '/search.' + extension;
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -112,11 +111,21 @@ function searchContacts() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
+        // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
         let jsonObject = JSON.parse(xhr.responseText);
 
+        // document.getElementById("contactSearchResult").innerHTML = jsonObject.length;
+
+        if (jsonObject.results.length == 0) {
+          document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
+        } else {
+          document.getElementById("contactSearchResult").innerHTML = "";
+        }
+
         for (let i = 0; i < jsonObject.results.length; i++) {
-          contactList += jsonObject.results[i];
+          let result = jsonObject.results[i];
+          let foundContact = result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
+          contactList += foundContact;
           if (i < jsonObject.results.length - 1) {
             contactList += "<br />\r\n";
           }
@@ -153,6 +162,7 @@ function addContact() {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         document.getElementById("addContactResult").innerHTML = "Contact has been added";
+        searchContacts();
       }
     };
     xhr.send(jsonPayload);
