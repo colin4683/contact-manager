@@ -111,20 +111,18 @@ function searchContacts() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
         let jsonObject = JSON.parse(xhr.responseText);
-
-        // document.getElementById("contactSearchResult").innerHTML = jsonObject.length;
 
         if (jsonObject.results.length == 0) {
           document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
         } else {
           document.getElementById("contactSearchResult").innerHTML = "";
+          // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
         }
 
         for (let i = 0; i < jsonObject.results.length; i++) {
           let result = jsonObject.results[i];
-          let foundContact = result["contact_id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
+          let foundContact = result["id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
           contactList += foundContact;
           if (i < jsonObject.results.length - 1) {
             contactList += "<br />\r\n";

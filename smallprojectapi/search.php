@@ -11,7 +11,7 @@ $searchResults = "";
 $searchCount = 0;
 
 // Prepare the SQL statement for partial search
-$stmt = $conn->prepare("SELECT contact_id, first_name, last_name, email, phone_number FROM contacts WHERE owner=? AND (first_name LIKE ? OR last_name LIKE ? OR email LIKE ?)");
+$stmt = $conn->prepare("SELECT * FROM contacts WHERE owner=? AND (first_name LIKE ? OR last_name LIKE ? OR email LIKE ?)");
 $searchTerm = "%" . $in["search"] . "%";
 $stmt->bind_param("ssss", $in["owner"], $searchTerm, $searchTerm, $searchTerm);
 $stmt->execute();
