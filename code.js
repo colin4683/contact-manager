@@ -118,14 +118,30 @@ function readCookie() {
   if (userId < 0) {
     //window.location.href = "index.html";
   } else {
-    document.getElementById("loggedInName").innerHTML = "Logged in as " + firstName + " " + lastName + ": " + email;
+    document.getElementById("currentUser").innerHTML = firstName + " " + lastName;
   }
+}
+
+// Function to handle selection of a contact
+function selectContact(element, firstName, lastName) {
+  const items = document.querySelectorAll('.list-group-item');
+  items.forEach(item => item.classList.remove('active'));
+  element.classList.add('active');
+
+  const contactDetails = document.getElementById('contactDetails');
+  contactDetails.innerHTML = `
+    <h3>Contact Details</h3>
+    <p>Selected Contact: <strong>${firstName} ${lastName}</strong></p>
+  `;
 }
 
 function searchContacts() {
   let search = document.getElementById("searchText").value;
 
-  let contactList = "";
+  // let contactList = "";
+
+  let contactList = document.getElementById('contactList');
+  contactList.innerHTML = ""; // empty out current list
 
   let tmp = { search: search, owner: userId };
   let jsonPayload = JSON.stringify(tmp);
@@ -142,28 +158,39 @@ function searchContacts() {
         let jsonObject = JSON.parse(xhr.responseText);
 
         if (jsonObject.results.length == 0) {
-          document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
+          // document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
         } else {
-          document.getElementById("contactSearchResult").innerHTML = "";
+          // document.getElementById("contactSearchResult").innerHTML = "";
           // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
         }
 
         for (let i = 0; i < jsonObject.results.length; i++) {
           let result = jsonObject.results[i];
-          let foundContact = result["id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
-          contactList += foundContact;
-          if (i < jsonObject.results.length - 1) {
-            contactList += "<br />\r\n";
-          }
+          let foundContact = document.createElement('a');
+          foundContact.href = "#";
+          foundContact.className = "list-group-item list-group-item-action py-3 lh-sm";
+          foundContact.innerHTML = `
+          <div class="contact-name">
+            <span class="first-name">${result["first_name"]}</span>
+            <span class="last-name">${result["last_name"]}</span>
+          </div>
+        `;
+          foundContact.onclick = function () { selectContact(foundContact, result["first_name"], result["last_name"]) };
+          contactList.appendChild(foundContact);
+          // let foundContact = result["id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
+          // contactList += foundContact;
+          // if (i < jsonObject.results.length - 1) {
+          //   contactList += "<br />\r\n";
+          // }
         }
 
-        document.getElementById("contactList").innerHTML = contactList;
+        // document.getElementById("contactList").innerHTML = contactList;
       }
     };
     xhr.send(jsonPayload);
   }
   catch (err) {
-    document.getElementById("contactSearchResult").innerHTML = err.message;
+    // document.getElementById("contactSearchResult").innerHTML = err.message;
   }
 }
 
