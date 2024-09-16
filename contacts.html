@@ -12,7 +12,7 @@
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
       readCookie();
-      searchContacts(); 
+      searchContacts();
     }, false);
   </script>
 
@@ -20,7 +20,7 @@
 </head>
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
-  
+
   <main class="form-contacts w-100 m-auto">
     <h6 id="loggedInName">Login Error</h6>
 
@@ -60,7 +60,7 @@
       <button class="btn btn-primary w-100 py-2" type="submit">Add Contact</button>
     </form>
 
-  </br>
+    </br>
     <form name="code" action="javascript:updateContact()">
       <!-- Update contact form -->
       <div class="form-floating">
@@ -84,7 +84,7 @@
       </div>
 
       <div class="form-floating">
-        <input type="email" class="form-control" id="existingContactEmail" placeholder="placeholder@test.com">
+        <input type="email" class="form-control" id="updatedContactEmail" placeholder="placeholder@test.com">
         <label for="updatedContactEmail">Email</label>
       </div>
 

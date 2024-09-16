@@ -173,7 +173,7 @@ function addContact() {
 function updateContact() {
   let existingContactID = document.getElementById("existingContactID").value;
   let updatedContactFirstName = document.getElementById("updatedContactFirstName").value;
-  let updatedContactLastName = document.getElementById("exisitngContactLastName").value;
+  let updatedContactLastName = document.getElementById("updatedContactLastName").value;
   let updatedContactEmail = document.getElementById("updatedContactEmail").value;
   let updatedContactPhoneNumber = document.getElementById("updatedContactPhoneNumber").value;
 
