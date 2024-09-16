@@ -80,6 +80,52 @@ function deleteContact() {
   }
 }
 
+// New Delete to integrate aspects from 1 and 2
+function deleteContact3() {
+  //check certainty
+  const response = prompt("Are you sure? Type Yes or No");
+  const check = response.toLocaleLowerCase();
+  if (check.localeCompare("yes") == 0)  {
+    // Remove contact to the list
+    const contactList = document.getElementById('contactList');
+    const items = document.querySelectorAll('.active');
+    const oldContact = items[0];
+    contactList.removeChild(oldContact);
+
+    // Set Contact Details to default
+    const contactDetails = document.getElementById('contactDetails');
+    contactDetails.innerHTML = `
+      <div class="content-pane flex-grow-1 bg-white" id="contactDetails">
+        <h3>Contact Details</h3>
+        <p>Select a contact to view details.</p>
+      </div>
+    `;
+
+    // Remove from Database
+    // Need to figure out an ID to get a specific contact from html
+    let tmp = { id: existingContactID };
+    let jsonPayload = JSON.stringify(tmp);
+
+    let url = urlBase + '/deleteContact.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          //Success Toast?
+        }
+      };
+      xhr.send(jsonPayload);
+    }
+    catch (err) {
+      //error toast?
+    }
+  }
+}
+
 function doLogout() {
   userId = 0;
   firstName = "";
@@ -134,6 +180,34 @@ function selectContact(element, result) {
     </br></br>
     <p><strong>Phone Number:</strong> ${result["phone_number"]}</p>
     <p><strong>Email:</strong> ${result["email"]}</p>
+    </br></br>
+    <button class="btn btn-primary btn-sm" onclick="updateContact2()">Update Contact</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteContact2()">Delete Contact</button>
+  `;
+}
+
+// General update format function
+function updateDetails(contactInfo) {
+  // Update Contact List
+  const contactList = document.getElementById('contactList');
+  const items = document.querySelectorAll('.active');
+  const oldContact = items[0];
+  oldContact.innerHTML = `
+      <div class="contact-name">
+        <span class="first-name">${contactInfo["first_name"]}</span>
+        <span class="last-name">${contactInfo["last_name"]}</span>
+      </div>
+    `;
+  oldContact.onclick = function() { selectContact(oldContact, contactInfo) };
+  contactList.appendChild(oldContact);
+
+  // Update Contact Details
+  const contactDetails = document.getElementById('contactDetails');
+  contactDetails.innerHTML = `
+    <h1>${contactInfo["first_name"]} ${contactInfo["last_name"]}</h1>
+    </br></br>
+    <p><strong>Phone Number:</strong> ${contactInfo["phone_number"]}</p>
+    <p><strong>Email:</strong> ${contactInfo["email"]}</p>
     </br></br>
     <button class="btn btn-primary btn-sm" onclick="updateContact2()">Update Contact</button>
     <button class="btn btn-danger btn-sm" onclick="deleteContact2()">Delete Contact</button>
@@ -298,6 +372,32 @@ function addContact() {
   }
 }
 
+// Framework to integrate aspects from addContact and createNewContact
+function createNewContact2() {
+  const newName = prompt("Enter the contact's name:");
+  const newEmail = prompt("Enter the contact's email:");
+  const newNumber = prompt("Enter the contact's phone number:");
+  if (newName) {
+    // Add the new contact to the list
+    const contactList = document.getElementById('contactList');
+    const newContact = document.createElement('a');
+    const contactInfo = {"first_name": newName.split(' ')[0], "last_name":newName.split(' ')[1] || '',
+    "email": newEmail, "phone_number": newNumber};
+    newContact.href = "#";
+    newContact.className = "list-group-item list-group-item-action py-3 lh-sm";
+    newContact.innerHTML = `
+      <div class="contact-name">
+        <span class="first-name">${newName.split(' ')[0]}</span>
+        <span class="last-name">${newName.split(' ')[1] || ''}</span>
+      </div>
+    `;
+    newContact.onclick = function() { selectContact(newContact, contactInfo) };
+    contactList.appendChild(newContact);
+   
+    //success toast?
+  }
+}
+
 function updateContact() {
   let existingContactID = document.getElementById("existingContactID").value;
   let updatedContactFirstName = document.getElementById("updatedContactFirstName").value;
@@ -327,6 +427,39 @@ function updateContact() {
   }
   catch (err) {
     document.getElementById("updateContactResult").innerHTML = err.message;
+  }
+}
+
+// Framework to integrate aspects form updateContact 1 and 2
+function updateContact3() {
+  // New contact information
+  const newName = prompt("Enter the contact's name:");
+  const newEmail = prompt("Enter the contact's email:");
+  const newNumber = prompt("Enter the contact's phone number:");
+  if (newName) {
+    // Update contact on the list
+    const contactInfo = {"first_name": newName.split(' ')[0], "last_name":newName.split(' ')[1] || '',
+      "email": newEmail, "phone_number": newNumber}
+    let jsonPayload = JSON.stringify(contactInfo);
+
+    let url = urlBase + '/updateContact.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          updateDetails(contactInfo);
+          //Success toast?
+        }
+      };
+      xhr.send(jsonPayload);
+    }
+    catch (err) {
+      //Error toast?
+    }
   }
 }
 

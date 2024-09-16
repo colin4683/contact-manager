@@ -86,12 +86,14 @@
     // Function to handle creation of a new contact
     function createNewContact() {
       const newName = prompt("Enter the contact's name:");
+      const newEmail = prompt("Enter the contact's email:");
+      const newNumber = prompt("Enter the contact's phone number:");
       if (newName) {
         // Add the new contact to the list
         const contactList = document.getElementById('contactList');
         const newContact = document.createElement('a');
         const contactInfo = {"first_name": newName.split(' ')[0], "last_name":newName.split(' ')[1] || '',
-        "email": '', "phone_number": ''};
+        "email": newEmail, "phone_number": newNumber};
         newContact.href = "#";
         newContact.className = "list-group-item list-group-item-action py-3 lh-sm";
         newContact.innerHTML = `
@@ -102,6 +104,12 @@
         `;
         newContact.onclick = function() { selectContact(newContact, contactInfo) };
         contactList.appendChild(newContact);
+
+        // Set as active display
+        const items = document.querySelectorAll('.list-group-item');
+        items.forEach(item => item.classList.remove('active'));
+        newContact.classList.add('active');
+        updateDetails(contactInfo);
       }
     }
 
@@ -118,29 +126,8 @@
         const oldContact = items[0];
         const contactInfo = {"first_name": newName.split(' ')[0], "last_name":newName.split(' ')[1] || '',
           "email": newEmail, "phone_number": newNumber}
-
-        // Update list
-        oldContact.innerHTML = `
-          <div class="contact-name">
-            <span class="first-name">${newName.split(' ')[0]}</span>
-            <span class="last-name">${newName.split(' ')[1] || ''}</span>
-          </div>
-        `;
-        oldContact.onclick = function() { selectContact(oldContact, contactInfo) };
-        contactList.appendChild(oldContact);
-
-        // Update Contact Details
-        const contactDetails = document.getElementById('contactDetails');
-        contactDetails.innerHTML = `
-          <h1>${contactInfo["first_name"]} ${contactInfo["last_name"]}</h1>
-          </br></br>
-          <p><strong>Phone Number:</strong> ${contactInfo["phone_number"]}</p>
-          <p><strong>Email:</strong> ${contactInfo["email"]}</p>
-          </br></br>
-          <button class="btn btn-primary btn-sm" onclick="updateContact2()">Update Contact</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteContact2()">Delete Contact</button>
-        `;
-      }
+        updateDetails(contactInfo);
+      }  
     }
 
     // Function to handle updating an existing contact
