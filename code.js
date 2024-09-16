@@ -202,35 +202,6 @@ function updateContact() {
   }
 }
 
-function deleteContact() {
-  let existingContactID = document.getElementById("deleteExistingContactID").value;
-  document.getElementById("deleteContactResult").innerHTML = existingContactID;
-
-  // document.getElementById("deleteContactResult").innerHTML = "";
-
-  let tmp = { id: existingContactID };
-  let jsonPayload = JSON.stringify(tmp);
-
-  let url = urlBase + '/deleteContact.' + extension;
-
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("deleteContactResult").innerHTML = "Contact has been deleted";
-        searchContacts();
-      }
-    };
-    xhr.send(jsonPayload);
-  }
-  catch (err) {
-    document.getElementById("deleteContactResult").innerHTML = err.message;
-  }
-}
-
 
 function doRegister() {
 
