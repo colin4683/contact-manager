@@ -134,6 +134,9 @@ function selectContact(element, result) {
     </br></br>
     <p><strong>Phone Number:</strong> ${result["phone_number"]}</p>
     <p><strong>Email:</strong> ${result["email"]}</p>
+    </br></br>
+    <button class="btn btn-primary btn-sm" onclick="updateContact2()">Update Contact</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteContact2()">Delete Contact</button>
   `;
 }
 
