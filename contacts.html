@@ -30,12 +30,12 @@
 
       <!-- Search bar -->
       <div class="p-3">
-        <input type="text" class="form-control" id="searchText" placeholder="Search contacts" onkeyup="searchContacts()">
+        <input type="text" class="form-control" id="searchText" placeholder="Search contacts" oninput="searchContacts()">
       </div>
 
       <!-- Contact list -->
       <div class="contact-list list-group list-group-flush border-bottom scrollarea" id="contactList">
-        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" onclick="selectContact(this, 'John', 'Doe')">
+        <!-- <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" onclick="selectContact(this, 'John', 'Doe')">
           <div class="contact-name">
             <span class="first-name">John</span> <span class="last-name">Doe</span>
           </div>
@@ -44,11 +44,11 @@
           <div class="contact-name">
             <span class="first-name">Jane</span> <span class="last-name">Smith</span>
           </div>
-        </a>
+        </a> -->
         <!-- Additional contacts can be added dynamically -->
       </div>
 
-      <!-- Footer with user name and logout button -->
+      <!-- Footer with current users name and logout button -->
       <div class="sidebar-footer">
         <span id="currentUser">Current User</span>
         <button class="btn btn-primary" onclick=doLogout()>Logout</button>

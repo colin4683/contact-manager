@@ -123,25 +123,26 @@ function readCookie() {
 }
 
 // Function to handle selection of a contact
-function selectContact(element, firstName, lastName) {
+function selectContact(element, result) {
   const items = document.querySelectorAll('.list-group-item');
   items.forEach(item => item.classList.remove('active'));
   element.classList.add('active');
 
   const contactDetails = document.getElementById('contactDetails');
   contactDetails.innerHTML = `
-    <h3>Contact Details</h3>
-    <p>Selected Contact: <strong>${firstName} ${lastName}</strong></p>
+    <h1>${result["first_name"]} ${result["last_name"]}</h1>
+    </br></br>
+    <p><strong>Phone Number:</strong> ${result["phone_number"]}</p>
+    <p><strong>Email:</strong> ${result["email"]}</p>
   `;
 }
+
 
 function searchContacts() {
   let search = document.getElementById("searchText").value;
 
-  // let contactList = "";
-
-  let contactList = document.getElementById('contactList');
-  contactList.innerHTML = ""; // empty out current list
+  // Create a document fragment
+  let fragment = document.createDocumentFragment();
 
   let tmp = { search: search, owner: userId };
   let jsonPayload = JSON.stringify(tmp);
@@ -158,41 +159,110 @@ function searchContacts() {
         let jsonObject = JSON.parse(xhr.responseText);
 
         if (jsonObject.results.length == 0) {
-          // document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
+          // Optionally handle the case where no contacts are found
         } else {
-          // document.getElementById("contactSearchResult").innerHTML = "";
-          // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
-        }
+          for (let i = 0; i < jsonObject.results.length; i++) {
+            let result = jsonObject.results[i];
+            let foundContact = document.createElement('a');
+            foundContact.href = "#";
+            foundContact.className = "list-group-item list-group-item-action py-3 lh-sm";
+            foundContact.innerHTML = `
+              <div class="contact-name">
+                <span class="first-name">${result["first_name"]}</span>
+                <span class="last-name">${result["last_name"]}</span>
+              </div>
+            `;
+            foundContact.onclick = function () {
+              selectContact(foundContact, result);
+            };
+            fragment.appendChild(foundContact);
+          }
 
-        for (let i = 0; i < jsonObject.results.length; i++) {
-          let result = jsonObject.results[i];
-          let foundContact = document.createElement('a');
-          foundContact.href = "#";
-          foundContact.className = "list-group-item list-group-item-action py-3 lh-sm";
-          foundContact.innerHTML = `
-          <div class="contact-name">
-            <span class="first-name">${result["first_name"]}</span>
-            <span class="last-name">${result["last_name"]}</span>
-          </div>
-        `;
-          foundContact.onclick = function () { selectContact(foundContact, result["first_name"], result["last_name"]) };
-          contactList.appendChild(foundContact);
-          // let foundContact = result["id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
-          // contactList += foundContact;
-          // if (i < jsonObject.results.length - 1) {
-          //   contactList += "<br />\r\n";
-          // }
-        }
+          // Clear the actual container
+          let contactList = document.getElementById('contactList');
+          contactList.innerHTML = "";
 
-        // document.getElementById("contactList").innerHTML = contactList;
+          // Append the fragment to the actual container
+          contactList.appendChild(fragment);
+        }
       }
     };
+
     xhr.send(jsonPayload);
   }
   catch (err) {
-    // document.getElementById("contactSearchResult").innerHTML = err.message;
+    console.error(err.message);
   }
 }
+
+
+// function searchContacts() {
+//   let search = document.getElementById("searchText").value;
+
+//   // let contactList = "";
+
+//   // let contactList = document.getElementById('contactList');
+//   // // contactList.innerHTML = ""; // empty out current list
+//   // let tempList = contactList;
+//   // tempList.innerHTML = "";
+
+//   // Create a temporary container
+//   let tempContainer = document.createElement('div');
+
+//   let tmp = { search: search, owner: userId };
+//   let jsonPayload = JSON.stringify(tmp);
+
+//   let url = urlBase + '/search.' + extension;
+
+//   let xhr = new XMLHttpRequest();
+//   xhr.open("POST", url, true);
+//   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+//   try {
+//     xhr.onreadystatechange = function () {
+//       if (this.readyState == 4 && this.status == 200) {
+//         let jsonObject = JSON.parse(xhr.responseText);
+
+//         if (jsonObject.results.length == 0) {
+//           // document.getElementById("contactSearchResult").innerHTML = "No Contacts Found";
+//         } else {
+//           // document.getElementById("contactSearchResult").innerHTML = "";
+//           // document.getElementById("contactSearchResult").innerHTML = xhr.responseText;
+//         }
+
+//         for (let i = 0; i < jsonObject.results.length; i++) {
+//           let result = jsonObject.results[i];
+//           let foundContact = document.createElement('a');
+//           foundContact.href = "#";
+//           foundContact.className = "list-group-item list-group-item-action py-3 lh-sm";
+//           foundContact.innerHTML = `
+//           <div class="contact-name">
+//             <span class="first-name">${result["first_name"]}</span>
+//             <span class="last-name">${result["last_name"]}</span>
+//           </div>
+//         `;
+//           foundContact.onclick = function () { selectContact(foundContact, result["first_name"], result["last_name"]) };
+//           tempContainer.appendChild(foundContact);
+//           // let foundContact = result["id"] + " " + result["first_name"] + " " + result["last_name"] + ": " + result["phone_number"] + " | " + result["email"];
+//           // contactList += foundContact;
+//           // if (i < jsonObject.results.length - 1) {
+//           //   contactList += "<br />\r\n";
+//           // }
+//         }
+
+//         let contactList = document.getElementById('contactList');
+//         contactList.innerHTML = tempContainer.innerHTML;
+
+//         // document.getElementById("contactList").innerHTML = contactList;
+//       }
+//     };
+
+//     xhr.send(jsonPayload);
+//   }
+//   catch (err) {
+//     // document.getElementById("contactSearchResult").innerHTML = err.message;
+//   }
+// }
 
 function addContact() {
   let newContactFirstName = document.getElementById("newContactFirstName").value;
