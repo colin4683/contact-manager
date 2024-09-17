@@ -1,5 +1,7 @@
 <?php
 
+session_start(); // start a session to store user ID
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -19,6 +21,7 @@ $user = $result->fetch_assoc();
 if ($user) {
 	// Handles verifying password hash
 	if (password_verify($inData["password"], $user["password"])) {
+		$_SESSION['id'] = $user["ID"];
 		returnWithInfo($user["first_name"], $user["last_name"], $user["ID"]);
 	} else {
 		returnWithError("No Records Found");
