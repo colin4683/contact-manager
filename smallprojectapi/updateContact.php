@@ -9,7 +9,7 @@ $conn = require __DIR__ . "/database.php";
 
 // Prepare the SQL statement for partial search
 $stmt = $conn->prepare("UPDATE contacts SET first_name=?, last_name=?, email=?, phone_number=? WHERE id=?");
-$stmt->bind_param("sssss", $in["first_name"], $in["last_name"], $in["email"], $in["phone_number"], $in["id"]);
+$stmt->bind_param("sssii", $in["first_name"], $in["last_name"], $in["email"], $in["phone_number"], $in["id"]);
 $stmt->execute();
 $stmt->close();
 $conn->close();
