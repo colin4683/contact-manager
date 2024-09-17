@@ -22,6 +22,7 @@ if ($user) {
 	// Handles verifying password hash
 	if (password_verify($inData["password"], $user["password"])) {
 		$_SESSION['id'] = $user["ID"];
+		var_dump($_SESSION); 
 		returnWithInfo($user["first_name"], $user["last_name"], $user["ID"]);
 	} else {
 		returnWithError("No Records Found");

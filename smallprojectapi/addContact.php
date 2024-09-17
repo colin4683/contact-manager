@@ -1,6 +1,7 @@
 <?php
 
 session_start();  //start the session to retrieve the user ID
+var_dump($_SESSION);
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -8,6 +9,12 @@ error_reporting(E_ALL);
 
 $in = getRequestInfo();
 $conn = require __DIR__ . "/database.php";
+
+// Check if the user ID is set in the session
+if (!isset($_SESSION['id'])) {
+    returnWithError("User is not logged in.");
+    exit();
+}
 
 // set the owner as the logged in user ID from the session
 $owner = $_SESSION['id'];
