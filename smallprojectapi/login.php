@@ -9,7 +9,7 @@ $conn = require __DIR__ . "/database.php";
 
 // prevents sql injection attacks
 $stmt = sprintf(
-	"SELECT ID,first_name,last_name,password FROM users WHERE email = '%s'",
+	"SELECT id,first_name,last_name,password FROM users WHERE email = '%s'",
 	$conn->real_escape_string($inData["email"])
 );
 
@@ -19,7 +19,7 @@ $user = $result->fetch_assoc();
 if ($user) {
 	// Handles verifying password hash
 	if (password_verify($inData["password"], $user["password"])) {
-		returnWithInfo($user["first_name"], $user["last_name"], $user["ID"]);
+		returnWithInfo($user["first_name"], $user["last_name"], $user["id"]);
 	} else {
 		returnWithError("No Records Found");
 	}

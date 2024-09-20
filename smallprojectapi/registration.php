@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $inData = getRequestInfo();
 
 $conn = require __DIR__ . "/database.php";
@@ -15,13 +19,28 @@ $stmt->bind_param(
 );
 $stmt->execute();
 
-$result = $stmt->get_result();
+$newID = mysqli_insert_id($conn);
+$fetchSql = "SELECT * FROM users WHERE id = $newID";
+$result = mysqli_query($conn, $fetchSql);
 
-if ($row = $result->fetch_assoc()) {
-    returnWithInfo($row['first_name'], $row['last_name'], $row['ID']);
+if ($newUser = $result->fetch_assoc()) {
+    sendResultInfoAsJson(json_encode($newUser));
 } else {
     returnWithError("No Records Found");
 }
+
+
+
+
+// $result = $stmt->get_result();
+// $user = $result->fetch_assoc();
+
+// if ($user) {
+//     // sendResultInfoAsJson(json_encode($row));
+//     returnWithInfo($user['first_name'], $user['last_name'], $user['id']);
+// } else {
+//     returnWithError("No Records Found");
+// }
 
 $stmt->close();
 $conn->close();
