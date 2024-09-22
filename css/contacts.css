@@ -1,0 +1,45 @@
+body {
+    height: 100%;
+  }
+  
+  .form-addcontact {
+    max-width: 350px;
+    padding: 5px;
+  }
+  
+  .form-contacts {
+    max-width: 450px;
+    padding: 1rem;
+  }
+  
+  .form-addcontact .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-addcontact input[id="firstNameInput"] {
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-bottom: -1px;
+  }
+  
+  .form-addcontact input[id="lastNameInput"] {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-bottom: -1px;
+  }
+
+  .form-addcontact input[id="phoneInput"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+  
+  .form-addcontact input[id="emailInput"] {
+    /* margin-bottom: -1px; */
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
